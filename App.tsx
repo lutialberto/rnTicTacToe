@@ -17,16 +17,8 @@ const App = () => {
     if (cells[id].state !== '') return;
     if (game !== 'playing') return;
 
-    const newCells = cells.map(cell => {
-      if (cell.id === id) {
-        return {
-          ...cell,
-          state: player
-        }
-      }
-      return cell
-    })
-    setCells(newCells as ICell[])
+    const newCells: ICell[] = cells.map(cell => cell.id === id ? { ...cell, state: player } : cell)
+    setCells(newCells)
 
     let result = checkrows(newCells)
     if (result) {
@@ -60,16 +52,19 @@ const App = () => {
     setGame('playing')
   }
 
+  let gameStateLabel = '';
+  switch (game) {
+    case 'playing': gameStateLabel = `${player}'s turn`; break;
+    case 'wonO': gameStateLabel = 'O won!'; break;
+    case 'wonX': gameStateLabel = 'X won!'; break;
+    case 'draw': gameStateLabel = 'Draw!'; break;
+  }
+
   return (
     <View style={styles.screen}>
       <Text style={styles.title}>Tic Tac Toe</Text>
-      <Grid cells={cells} onpress={handlePress} />
-      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-        {game === 'playing' && `${player}'s turn`}
-        {game === 'wonO' && 'O won!'}
-        {game === 'wonX' && 'X won!'}
-        {game === 'draw' && 'Draw!'}
-      </Text>
+      <Grid cells={cells} onpress={handlePress} cellsSize={70} />
+      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{gameStateLabel}</Text>
       <Button title="Play Again" onPress={handleReset} />
     </View>
   )
