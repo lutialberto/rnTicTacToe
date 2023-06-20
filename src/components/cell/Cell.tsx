@@ -8,19 +8,17 @@ export interface ICellProps {
   size?: number,
 }
 
+const DEFAULT_SIZE = 100
+
 const Cell = (props: ICellProps) => {
   return (
-    <Pressable
-      style={[
-        styles.container,
-        { width: props.size ?? 100 }
-      ]}
-      onPress={() => props.onpress(props.cell.id)}>
+    <Pressable onPress={() => props.onpress(props.cell.id)}>
       <Text
         style={[
           styles.text,
           {
-            fontSize: 0.5 * (props.size ?? 100)
+            width: props.size ?? DEFAULT_SIZE,
+            fontSize: 0.5 * (props.size ?? DEFAULT_SIZE)
           }]}
       >
         {props.cell.state}
@@ -32,16 +30,13 @@ const Cell = (props: ICellProps) => {
 export default Cell
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'red',
-    width: 100,
-    aspectRatio: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   text: {
+    backgroundColor: 'red',
     color: 'white',
     textTransform: 'uppercase',
-    fontSize: 50,
+    fontWeight: 'bold',
+    aspectRatio: 1,
+    textAlign: 'center',
+    textAlignVertical: 'center',
   },
 })
